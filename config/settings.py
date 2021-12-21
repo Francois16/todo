@@ -42,6 +42,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
+    # 3rd Party
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
     # Local
     "accounts",
     "todo",
@@ -135,6 +140,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # User settings
 AUTH_USER_MODEL = "accounts.CustomUser"
+SITE_ID = 1
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_FORMS = {"signup": "accounts.forms.CustomUserCreationForm"}
 
 # Email
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
