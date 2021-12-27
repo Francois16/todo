@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row mb-3">
+            <div class="col-6">
+                <h1 class="d-inline">My Todos</h1>
+            </div>
+            <div class="col-6 d-flex ms-auto align-self-center ">
+                <a class="ms-auto btn btn-success" href="{% url 'new_todo' %}">+ New Todo</a>
+            </div>
+        </div>
+
+            {% if not todos %}
+                <span class="text-muted">Fantastic! You have done everything you wanted to today!</ span>
+            {% endif %}
+
+            <hr>
+                {% for category in cat %}
+                    <h2>{{ category.name }}</h2>
+
+                    {% for todo in category.todo_set.all %}
+                        {{ todo.description }}
+                    {% endfor %}
+                {% endfor %}
+
+            <hr>
+
+            {% for category in categories %}
+                <h2>{{ category.name }}</h2>
+                {% for todo in category.user_todos %}
+                <div class="border mb-2 p-3">
+                    <div class="row">
+                        <div class="col">
+                            <span class="badge {{ todo.priority }}">{{ todo.get_priority_display }}</span>
+                            
+                            {% if todo.completed %}
+                                <h4 class="text-decoration-line-through">{{ todo.description }}</h4>
+                            {% else %}
+                                <h4 class="">{{ todo.description }}</h4>
+                            {% endif %}
+                        
+                        </div>
+                        <div class="col-auto">
+                            <div class="row g-2">
+                                {% comment %} Edit Button Start {% endcomment %}
+                                <div class="col">
+                                    <a class="btn btn-info" href="{% url 'todo_update' todo.pk %}">Edit</a>
+                                </div>
+                                {% comment %} Edit Button End {% endcomment %}
+
+                                {% comment %} Delete Button Start {% endcomment %}
+                                <div class="col">
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                        Delete
+                                    </button>
+                                    
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel">Delete?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Are you sure you want to delete "{{ todo.name }}"?</p>
+                                                    
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <span class="form-text me-auto">This action cannot be undone</span>
+                                                    <form action="{% url 'todo_delete' todo.pk  %}" method="post">
+                                                        {% csrf_token %}
+                                                        <button class="btn btn-danger" type="submit">Yes</button>
+                                                    </form>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% comment %} Delete Button End {% endcomment %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endfor %}
+    </div>
+{% endblock content %}
+
+
+
+
+
+
+
+
+
