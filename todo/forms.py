@@ -7,7 +7,7 @@ from .models import Todo
 class NewTodoForm(forms.ModelForm):
     class Meta:
         model = Todo
-        fields = ("description", "priority", "completed")
+        fields = ("description", "priority", "completed", "category")
 
 
 class UpdateTodoForm(forms.ModelForm):

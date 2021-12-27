@@ -12,23 +12,8 @@
             </div>
         </div>
 
-            {% if not todos %}
-                <span class="text-muted">Fantastic! You have done everything you wanted to today!</ span>
-            {% endif %}
-
-            <hr>
-                {% for category in cat %}
-                    <h2>{{ category.name }}</h2>
-
-                    {% for todo in category.todo_set.all %}
-                        {{ todo.description }}
-                    {% endfor %}
-                {% endfor %}
-
-            <hr>
-
             {% for category in categories %}
-                <h2>{{ category.name }}</h2>
+                <h2>{{ category.name }} <span class="badge bg-primary rounded-pill">{{ category.user_todos|length }}</span></h2>
                 {% for todo in category.user_todos %}
                 <div class="border mb-2 p-3">
                     <div class="row">
@@ -39,6 +24,7 @@
                                 <h4 class="text-decoration-line-through">{{ todo.description }}</h4>
                             {% else %}
                                 <h4 class="">{{ todo.description }}</h4>
+                                
                             {% endif %}
                         
                         </div>

@@ -12,9 +12,6 @@ def todo_listview(request):
 
     template_name = "todos/listview.html"
     context = {
-        # "todos": get_users_todos(user=request.user),
-        # "cat": Category.objects.prefetch_related("todo_set"),
-        "cat": Category.objects.all(),
         "categories": Category.objects.prefetch_related(
             Prefetch("todo_set", queryset=get_users_todos(user=request.user), to_attr="user_todos")
         ),
